@@ -1,0 +1,35 @@
+name: Pull Request
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_game:
+    runs-on: ubuntu-latest
+    name: Build and Test Game
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+
+    - name: Build Game
+      id: export
+      uses: firebelley/godot-export@v5.2.1
+      with:
+        godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_linux.x86_64.zip
+        godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.2.2-stable/Godot_v4.2.2-stable_export_templates.tpz
+        relative_project_path: ./game/
+        cache: true
+        archive_output: false
+        relative_export_path: ./game/export
+
+    - name: Copy Custom Files
+      run: cp -r ./custom/* ./game/export/Web
+
+    - name: View Archive Dir Contents
+      run: pwd && ls -lRa
+      working-directory: ${{ github.workspace }}/game/export
+
+    - name: View Build Dir Contents
+      run: pwd && ls -lRa
+      working-directory: ${{ steps.export.outputs.build_directory }}
