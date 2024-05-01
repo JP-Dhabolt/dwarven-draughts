@@ -4,6 +4,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
   build_game:
     runs-on: ubuntu-latest
@@ -11,6 +16,21 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v4
+
+    - uses: MikeSchulze/gdUnit4-action@v1.0.8
+      with:
+        godot-version: '4.2.2'
+        godot-status: 'stable'
+        godot-net: 'false'
+        project_dir: './game/'
+        version: 'latest'
+        paths: 'tests'
+        timeout: '10'
+        retries: '0'
+        arguments: ''
+        publish-report: 'true'
+        upload-report: 'true'
+        report-name: 'test-report.xml'
 
     - name: Build Game
       id: export
