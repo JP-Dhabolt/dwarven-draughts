@@ -4,6 +4,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  actions: read
+  checks: write
+
 jobs:
   build_game:
     runs-on: ubuntu-latest
@@ -24,7 +29,7 @@ jobs:
         retries: '0'
         arguments: ''
         publish-report: 'true'
-        upload-report: 'false'
+        upload-report: 'true'
         report-name: 'test-report.xml'
 
     - name: Build Game
