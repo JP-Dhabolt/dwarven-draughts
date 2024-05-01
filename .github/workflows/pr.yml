@@ -24,7 +24,7 @@ jobs:
         retries: '0'
         arguments: ''
         publish-report: 'true'
-        upload-report: 'true'
+        upload-report: 'false'
         report-name: 'test-report.xml'
 
     - name: Build Game
